@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: bbs-gemini
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: GEMINI_API_KEY
+        sync: false            # defines no painel do Render
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: BBS_NAME
+        value: Porto Seguro BBS
+      - key: SYSOP_HANDLE
+        value: sysop
+    # Persistência: o plano free tem disco efémero (os dados perdem-se em cada deploy/reinício).
+    # Num plano pago, descomenta o disco e define DATA_DIR:
+    # disk:
+    #   name: bbs-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # e acrescenta em envVars:  - key: DATA_DIR  value: /var/data
